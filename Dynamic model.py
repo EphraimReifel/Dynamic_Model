@@ -72,6 +72,7 @@ for Yi in Y:
         d = abs(Pi_s(Yi) - Pi_d(Yi))
         lY = Yi
 print("The Intial Cross Point Is: Y=", lY, " pi=", Pi_d(lY))
+iY=lY
 pi_p = Pi_d(lY)
 
 # -- Moving towards equilibrium --
@@ -80,7 +81,7 @@ if e != 0 or vt != 0:
     print("There was a Shock, we'll need to move to an equilibrium")
 e = 0
 vt = 0
-timelimit = int(input("Do you want a time limit? (3 is recommended): "))
+timelimit = int(input("Do you want a time limit to checking the equilibrium? (3 is recommended): "))
 while abs(lY - Yp) > 0.01 and runs < timelimit:
     runs = runs + 1
     pi_s = pi_p + phi * (Y - Yp) + vt
@@ -100,10 +101,19 @@ for Yi in Y:
         lY = Yi
 print("The Final Cross Point Is: Y=", lY, " pi=", Pi_d(lY), " and it took me ", runs, " time periods")
 
+# -- showing the plot --
 show = input("Wanna see the graph? (y,n) ")
 if show == "y":
-    plt.ylim([0, 0.6])
-    plt.xlim([97.5, 102.5])
+    lx = ry = uy = dy = 0
+    if iY >= Yp :
+        rx = iY+0.1
+        lx = Yp-0.1
+    else:
+        lx = iY-0.1
+        rx = Yp+0.1
+
+    plt.ylim([0, 0.4])
+    plt.xlim([lx, rx])
     plt.grid()
     plt.legend()
     plt.show()
