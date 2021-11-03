@@ -111,8 +111,13 @@ if show == "y":
     else:
         lx = iY-0.1
         rx = Yp+0.1
-
-    plt.ylim([0, 0.4])
+    if Pi_d(iY) >= Pi_d(lY):
+        uy = Pi_d(iY)+0.2
+        dy = Pi_d(lY)-0.2
+    else:
+        uy = Pi_d(lY)+0.2
+        dy = Pi_d(iY)-0.2
+    plt.ylim([dy, uy])
     plt.xlim([lx, rx])
     plt.grid()
     plt.legend()
