@@ -11,7 +11,7 @@ tt_pi = 0.5
 ro = 0.02
 e = 0
 
-fig, axs = plt.subplots(1, 3)
+fig, axs = plt.subplots(1,3)
 
 # -- Default or manual --
 if not (input("Do you want to use the default values? ('y' - yes, else - no) ") == "y"):
@@ -44,13 +44,11 @@ Y = np.arange(0, 200, 0.001)
 def plotbasefunc(i):  # function that plots the base supply and demand plots
     # -- DAS initial plot --
     vt = 0
-    pi_s = pi_p + phi * (Y - Yp) + vt
-    axs[i] = plt.plot(Y, pi_s, 'o', label="DAS")
+    axs[i] = plt.plot(Y, Pi_s(Y), '+', label="DAS")
 
     # -- DAD initial plot --
     e = 0
-    pi_d = pi_t + ((1 + a * tt_y) / (a * tt_pi)) * (Yp - Y) + (1 / (a * tt_pi)) * e
-    axs[i] = plt.plot(Y, pi_d, 'o',  label="DAD")
+    axs[i] = plt.plot(Y, Pi_d(Y), '+',  label="DAD")
 
 
 # -- Calling to plot --
@@ -68,14 +66,12 @@ for i in 1, 2:
     # -- Demand Shock calc--
     if shockd != 0:
         e = shockd
-        pi_d = pi_t + ((1 + a * tt_y) / (a * tt_pi)) * (Yp - Y) + (1 / (a * tt_pi)) * e
-        axs[i] = plt.plot(Y, pi_d, label="DAD-Shocked")
+        axs[i] = plt.plot(Y, Pi_d(Y), label="DAD-Shocked")
 
     # -- Supply Shock calc--
     if shocks != 0:
         vt = shocks
-        pi_s = pi_p + phi * (Y - Yp) + vt
-        axs[i] = plt.plot(Y, pi_s, label="DAS-Shocked")
+        axs[i] = plt.plot(Y, Pi_s(Y), label="DAS-Shocked")
 
 # -- Initial cross point --
 lY = 0
@@ -93,19 +89,17 @@ axs[2] = plt.figure(2)
 runs = 0
 if e != 0 or vt != 0:
     print("There was a Shock, we'll need to move to an equilibrium")
-e = vt = 0
-timelimit = int(input("Do you want a time limit to checking the equilibrium? (3 is recommended): "))
-while abs(lY - Yp) > 0.01 and runs < timelimit:
-    runs = runs + 1
-    pi_s = pi_p + phi * (Y - Yp) + vt
-    axs[2] = plt.plot(Y, pi_s, label="DAS" + str(runs))
-    pi_d = pi_t + ((1 + a * tt_y) / (a * tt_pi)) * (Yp - Y) + (1 / (a * tt_pi)) * e
-    axs[2] = plt.plot(Y, pi_d, label="DAD" + str(runs))
-    d = 100
-    for Yi in Y:
-        if (abs(Pi_s(Yi) - Pi_d(Yi))) < d:
-            d = abs(Pi_s(Yi) - Pi_d(Yi))
-            lY = Yi
+    e = vt = 0
+    timelimit = int(input("Do you want a time limit to checking the equilibrium? (3 is recommended): "))
+    while abs(lY - Yp) > 0.01 and runs < timelimit:
+        runs = runs + 1
+        axs[2] = plt.plot(Y, Pi_s(Y), label="DAS" + str(runs))
+        axs[2] = plt.plot(Y, Pi_d(Y), label="DAD" + str(runs))
+        d = 100
+        for Yi in Y:
+            if (abs(Pi_s(Yi) - Pi_d(Yi))) < d:
+                d = abs(Pi_s(Yi) - Pi_d(Yi))
+                lY = Yi
 
 # -- Final Cross point --
 for Yi in Y:
