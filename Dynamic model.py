@@ -56,8 +56,8 @@ axs[0] = plt.figure(0)
 plotbasefunc(0)
 
 # -- Asking for shocks --
-shockd = float(input("Please enter a Demand shock (0 if none):"))
-shocks = float(input("Please enter a Supply shock (0 if none):"))
+shockd = float(input("Please enter a Demand shock (0 if none): "))
+shocks = float(input("Please enter a Supply shock (0 if none): "))
 
 # -- Plotting the shocks --
 for i in 1, 2:
@@ -106,7 +106,7 @@ for Yi in Y:
     if (abs(Pi_s(Yi) - Pi_d(Yi))) < d:
         d = abs(Pi_s(Yi) - Pi_d(Yi))
         lY = Yi
-print("The Final Cross Point Is: Y=", lY, " pi=", Pi_d(lY), " and it took me ", runs, " time periods")
+print("The Final Cross Point Is: Y=", lY, " pi=", Pi_d(lY), " and it took me ", runs, " iterations")
 
 # -- showing the plot --
 show = input("Wanna see the graph? (y,n) ")
